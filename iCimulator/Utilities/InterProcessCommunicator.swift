@@ -9,8 +9,15 @@
 import UIKit
 import Network
 
+internal protocol InterProcessCommunicatorProtocol {
+    func connect(_  handler: @escaping (UIImage)->Void)
+    func startRecording()
+    func stopRecording()-> [UIImage]
+    func detachConnection()
+}
+
 @available(iOS 12, *)
-internal class InterProcessCommunicator {
+internal class InterProcessCommunicator: InterProcessCommunicatorProtocol {
     private var connection: NWConnection?
     private var savedImages: [UIImage] = []
     private var tempImage: Data?

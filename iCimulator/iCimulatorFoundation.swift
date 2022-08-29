@@ -24,9 +24,14 @@ open class iCimulatorFoundation: CALayer { //** MAIN CLASS **//
     
     private var stopWatch: StopWatch = StopWatch()
     private var recordingStartTime: CMTime?
-    
-    @available(iOS 12 , *)
-    private lazy var ipc = InterProcessCommunicator()
+
+    private lazy var ipc: InterProcessCommunicatorProtocol = {
+        guard #available(iOS 12.0, *) else {
+            // Fallback on earlier versions
+            fatalError("iCimulator: MacCamera Mode requires iOS 12.0")
+        }
+        return InterProcessCommunicator()
+    }()
     
     
     public override func layoutSublayers() {
